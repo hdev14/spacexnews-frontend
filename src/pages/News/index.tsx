@@ -1,13 +1,14 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 
 import { Container, NewsGrid } from './styles';
 
 const Home = () => {
+  const history = useHistory();
 
   return (
     <Container>
-      <button>nova notícia</button>
+      <button onClick={() => history.push('/create/news')}>nova notícia</button>
       <NewsGrid>
         <Link to="/news/slug">
           <h2>NEWS TITLE TITLE TITLE TITLE TITLE</h2>
