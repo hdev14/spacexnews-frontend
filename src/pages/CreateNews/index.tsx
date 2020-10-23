@@ -27,8 +27,8 @@ const CreateNews: React.FC = () => {
             <input type="text" name="title" placeholder="Digite o titulo."/>
           </label>
           <label htmlFor="author">
-            Escolha o author
-            <input list="users" name="author" id="author" placeholder="Digite ou click duas vezes para ver as opções"/>
+            Escolha o autor
+            <input list="users" name="author" id="author" placeholder="Escolha o autor da notícia."/>
             <datalist id="users">
               <option value="Edge"/>
               <option value="Firefox"/>
@@ -39,7 +39,7 @@ const CreateNews: React.FC = () => {
           </label>
           <label htmlFor="image">
             url da imagem
-            <input type="text" name="image" placeholder="Cole a url da imagem principal aqui."/>
+            <input type="text" name="image" placeholder="Coloque a url da imagem principal aqui."/>
           </label>
         </div>
 
