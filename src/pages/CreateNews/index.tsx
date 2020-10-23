@@ -5,26 +5,30 @@ import _ from 'lodash';
 import { Container } from './styles';
 
 const CreateNews: React.FC = () => {
-  const [htmlContent, setHtmlContent] = useState('');
+  const [htmlContent, setHtmlContent] = useState('<h1> Escreva a notícia em markdown. </h1>');
 
   function onChangeTextareaHandler(e: React.ChangeEvent<HTMLTextAreaElement>) {
     const { value } = e.target;
     _.debounce(() => setHtmlContent(marked(value, { sanitize: true })), 500)();
   }
 
+  function onSubmitHandler(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+  }
+
   return (
     <Container>
       <h1>nova notícia</h1>
 
-      <form>
+      <form onSubmit={onSubmitHandler}>
         <div>
           <label htmlFor="title">
-            title
-            <input type="text" name="title" />
+            Título da notícia
+            <input type="text" name="title" placeholder="Digite o titulo."/>
           </label>
           <label htmlFor="author">
-            url da imagem
-            <input list="users" name="author" id="author" />
+            Escolha o author
+            <input list="users" name="author" id="author" placeholder="Digite ou click duas vezes para ver as opções"/>
             <datalist id="users">
               <option value="Edge"/>
               <option value="Firefox"/>
@@ -35,12 +39,12 @@ const CreateNews: React.FC = () => {
           </label>
           <label htmlFor="image">
             url da imagem
-            <input type="text" name="image" />
+            <input type="text" name="image" placeholder="Cole a url da imagem principal aqui."/>
           </label>
         </div>
 
-        <div>
-          <textarea onChange={onChangeTextareaHandler}></textarea>
+        <div id="news-content">
+          <textarea onChange={onChangeTextareaHandler} placeholder="# Escreva a notícia em markdown."></textarea>
           <div dangerouslySetInnerHTML={{ __html: htmlContent }}></div>
         </div>
         <button type="submit">salvar</button>

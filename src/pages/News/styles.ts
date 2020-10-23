@@ -53,7 +53,7 @@ export const NewsGrid = styled.div`
       width: 100%;
       object-fit: cover;
       z-index: -1;
-      filter: grayscale(1);
+      filter: grayscale(.5);
       transition: filter .1s ease-out;
     }
 

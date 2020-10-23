@@ -85,6 +85,7 @@ button {
 }
 
 input, textarea, button {
+  font-family: Arial, Helvetica, sans-serif;
   font-size: 1.4rem;
 }
 
@@ -96,7 +97,10 @@ h2 { font-size: 2.4rem; }
 
 h3 { font-size: 2rem; }
 
-p { font-size: 1.6rem; }
+p {
+  text-transform: initial;
+  font-size: 1.6rem;
+}
 
 span {
   color: var(--textcolor);

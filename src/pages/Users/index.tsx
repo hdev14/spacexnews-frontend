@@ -7,10 +7,16 @@ import { Container } from './styles';
 
 const Users: React.FC = () => {
   const modalNewUserRef = useRef<ModalHandler>(null);
+  const modalEditUserRef = useRef<ModalHandler>(null);
   const modalDeleteUserRef = useRef<ModalHandler>(null);
 
   function openModalNewUser() {
     modalNewUserRef.current && modalNewUserRef.current.toggleModal();
+  }
+
+  function openModalEditUser() {
+    // select ID before call toggle
+    modalEditUserRef.current && modalEditUserRef.current.toggleModal();
   }
 
   function openModalDeleteUser() {
@@ -22,15 +28,17 @@ const Users: React.FC = () => {
     <Container>
       <div id="users-header">
         <h1>Usuários</h1>
-        <button>novo usuário</button>
+        <button onClick={openModalNewUser}>novo usuário</button>
       </div>
 
       <table>
         <thead>
-          <th>#</th>
-          <th>nome</th>
-          <th>email</th>
-          <th></th>
+          <tr>
+            <th>#</th>
+            <th>nome</th>
+            <th>email</th>
+            <th></th>
+          </tr>
         </thead>
         <tbody>
           <tr>
@@ -38,18 +46,8 @@ const Users: React.FC = () => {
             <td>Nome sobrenome</td>
             <td>nomesobrenome@email.com</td>
             <td>
-              <button>editar</button>
-              <button className="delete">excluir</button>
-            </td>
-          </tr>
-
-          <tr>
-            <td>1</td>
-            <td>Nome sobrenome</td>
-            <td>nomesobrenome@email.com</td>
-            <td>
-              <button>editar</button>
-              <button>excluir</button>
+              <button onClick={openModalEditUser}>editar</button>
+              <button onClick={openModalDeleteUser}>excluir</button>
             </td>
           </tr>
         </tbody>
@@ -57,6 +55,10 @@ const Users: React.FC = () => {
 
       <Modal ref={modalNewUserRef} confirm={() => {}} confirm_text="salvar">
         <h1>Novo o usuário.</h1>
+      </Modal>
+
+      <Modal ref={modalEditUserRef} confirm={() => {}} confirm_text="Atualizar">
+        <h1>Atualizar o usuário.</h1>
       </Modal>
 
       <Modal ref={modalDeleteUserRef} confirm={() => {}} confirm_text="Sim. excluir">
