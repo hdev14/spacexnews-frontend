@@ -27,10 +27,12 @@ export const NewsGrid = styled.div`
     flex-direction: column;
     justify-content: space-between;
 
+    h2 { text-shadow: 0 2px 3px rgba(0, 0, 0, 0.8); }
+
     div {
       margin-top: 10px;
       align-self: flex-end;
-      background-color: black;
+      background-color: rgba(0, 0, 0, 0.8);
       padding: 10px;
       display: flex;
       flex-direction: column;

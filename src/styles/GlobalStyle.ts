@@ -74,6 +74,14 @@ button {
       height: 100%;
     }
   }
+
+  &.delete:hover {
+    border-color: tomato;
+
+    ::before {
+      background-color: tomato;
+    }
+  }
 }
 
 input, textarea, button {

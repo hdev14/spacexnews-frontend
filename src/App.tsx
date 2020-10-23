@@ -25,7 +25,7 @@ function App() {
       <Navbar>
         <h1>SPACEX NEWS</h1>
         <nav>
-          <Link to="/news">Nóticias</Link>
+          <Link to="/">Nóticias</Link>
           <Link to="/users">Usuários</Link>
         </nav>
       </Navbar>
