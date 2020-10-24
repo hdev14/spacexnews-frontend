@@ -13,6 +13,8 @@ export const Container = styled.div`
       display: flex;
       flex-direction: column;
       align-items: flex-start;
+      width: 700px;
+
       h1 {
         font-size: 4rem;
       }
