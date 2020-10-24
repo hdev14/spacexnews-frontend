@@ -8,7 +8,7 @@ const NewsContent = React.lazy(() => import('./pages/NewsContent'));
 const Users = React.lazy(() => import('./pages/Users'));
 
 const Routes = () => (
-  <Suspense fallback={Load}>
+  <Suspense fallback={<Load />}>
     <Switch>
       <Route exact path="/" component={News} />
       <Route path="/create/news" component={CreateNews} />
