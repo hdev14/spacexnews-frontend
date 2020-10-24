@@ -1,7 +1,7 @@
 import React, { useState, forwardRef, useImperativeHandle } from 'react';
 import { Container, ModalContainer } from './styles';
 
-// Não consegui acha uma formar de fazer esse component funcionar com TS.
+// Não consegui acha uma forma de fazer esse componente funcionar com TS.
 const Modal = ({ confirm, confirm_text, children }, ref) => {
   const [open, setOpen] = useState(false);
 

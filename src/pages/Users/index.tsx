@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState, useMemo } from 'react';
+import { toast } from 'react-toastify';
 
 import httpClient from '../../http-client';
 import Modal from '../../components/Modal/index';
@@ -22,7 +23,8 @@ const Users: React.FC = () => {
         const response = await httpClient.get('/users');
         setUsers(response.data);
       } catch (err) {
-        console.error(err)
+        toast.warn('Não foi possível carregar os usuários.');
+        console.error(err);
       }
     })();
   }, []);
@@ -39,6 +41,7 @@ const Users: React.FC = () => {
       setUsers([...users, response.data]);
       modalNewUserRef.current?.toggleModal();
     } catch (err) {
+      toast.error('Não foi possível cadastrar o usuário.');
       console.error(err);
     }
   }
@@ -57,6 +60,7 @@ const Users: React.FC = () => {
 
       modalEditUserRef.current?.toggleModal();
     } catch (err) {
+      toast.error('Não foi possível atualizar o usuário.');
       console.error(err)
     }
   }
@@ -68,6 +72,7 @@ const Users: React.FC = () => {
       setUsers([...newUsers]);
       modalDeleteUserRef.current?.toggleModal();
     } catch (err) {
+      toast.error('Não foi possível excluir o usuário.');
       console.error(err);
     }
   }

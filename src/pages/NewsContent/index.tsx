@@ -1,5 +1,6 @@
 import React, { useRef, useMemo } from 'react';
 import { useHistory, useLocation  } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 import Modal from '../../components/Modal/index'
 import { ModalHandler } from '../../components/Modal/ModalHandler'
@@ -27,6 +28,7 @@ const NewsContent: React.FC = () => {
       await httpClient.delete(`news/${state.news._id}`);
       history.push('/');
     } catch(err) {
+      toast.error('Não foi possível excluir a notícia.');
       console.error(err);
     }
   }

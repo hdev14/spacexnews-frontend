@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 import httpClient from '../../http-client';
 import { NewsData, UserData } from '../../types';
@@ -22,6 +23,7 @@ const Home = () => {
         setNews(newsResponse.data);
         setUsers(usersResponse.data);
       } catch(err) {
+        toast.warn('Não foi possível carregar as notícias.');
         console.error(err);
       }
     })();

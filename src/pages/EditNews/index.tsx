@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 import httpClient from '../../http-client';
 import NewsForm from '../../components/NewsForm';
@@ -29,6 +30,7 @@ const CreateNews: React.FC = () => {
         const response = await httpClient.get('/users');
         setUsers(response.data);
       } catch(err) {
+        toast.warn('Não foi possível carregar os usuários.');
         console.error(err);
       }
     })();
@@ -46,6 +48,7 @@ const CreateNews: React.FC = () => {
       setNews(newsInitialState);
       history.push('/');
     } catch(err) {
+      toast.error('Não foi possível atualizar a notícia.');
       console.error(err);
     }
   }
