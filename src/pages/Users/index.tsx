@@ -3,14 +3,9 @@ import React, { useEffect, useRef, useState, useMemo } from 'react';
 import httpClient from '../../http-client';
 import Modal from '../../components/Modal/index';
 import { ModalHandler } from '../../components/Modal/ModalHandler';
+import { UserData } from '../../types';
 
 import { Container } from './styles';
-
-type UserData = {
-  _id?: string,
-  name: string,
-  email: string
-}
 
 const Users: React.FC = () => {
   const modalNewUserRef = useRef<ModalHandler>(null);
@@ -55,9 +50,11 @@ const Users: React.FC = () => {
         name: userEdit.name,
         email: userEdit.email
       });
+
       const userIndex = users.findIndex(u => u._id === userEdit._id);
       users[userIndex] = userEdit;
       setUsers([...users]);
+
       modalEditUserRef.current?.toggleModal();
     } catch (err) {
       console.error(err)

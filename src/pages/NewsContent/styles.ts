@@ -24,6 +24,7 @@ export const Container = styled.div`
       }
 
       time {
+        font-size: 1.4rem;
         margin-bottom: 2.5px;
         color: #e2e2e2;
       }

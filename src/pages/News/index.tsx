@@ -1,60 +1,72 @@
-import React from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
+
+import httpClient from '../../http-client';
+import { NewsData, UserData } from '../../types';
 
 import { Container, NewsGrid } from './styles';
 
+
 const Home = () => {
   const history = useHistory();
+  const [news, setNews] = useState<NewsData[]>([]);
+  const [users, setUsers] = useState<UserData[]>([]);
+
+  useEffect(() => {
+    (async function fetchNews() {
+      try {
+        const [newsResponse, usersResponse] = await Promise.all([
+          httpClient.get<NewsData[]>('/news'),
+          httpClient.get<UserData[]>('/users')
+        ]);
+        setNews(newsResponse.data);
+        setUsers(usersResponse.data);
+      } catch(err) {
+        console.error(err);
+      }
+    })();
+  }, [])
+
+  const findAuthorById = useMemo(() => {
+    return (id: string): UserData | undefined => {
+      return users.find(u => u._id === id)
+    }
+  }, [users]);
+
+  const formatDate = useMemo(() => (d: string) => {
+    const date = new Date(d);
+    return `${date.getDay()}/${date.getMonth()}/${date.getFullYear()}`;;
+  }, []);
 
   return (
     <Container>
       <button onClick={() => history.push('/create/news')}>nova notícia</button>
-      <NewsGrid>
-        <Link to="/news/slug">
-          <h2>NEWS TITLE TITLE TITLE TITLE TITLE</h2>
-          <div>
-            <time dateTime="23/10/2020">23/10/2020</time>
-            <strong>author sobrenome</strong>
-          </div>
-          <img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse4.mm.bing.net%2Fth%3Fid%3DOIP.eMBPwZRLNjqwkSS4nBuD3gHaEJ%26pid%3DApi&f=1" alt="spacex"/>
-        </Link>
-
-        <Link to="/news/slug">
-          <h2>NEWS TITLE TITLE TITLE TITLE TITLE</h2>
-          <div>
-            <time dateTime="23/10/2020">23/10/2020</time>
-            <strong>author sobrenome</strong>
-          </div>
-          <img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse4.mm.bing.net%2Fth%3Fid%3DOIP.eMBPwZRLNjqwkSS4nBuD3gHaEJ%26pid%3DApi&f=1" alt="spacex"/>
-        </Link>
-
-        <Link to="/news/slug">
-          <h2>NEWS TITLE TITLE TITLE TITLE TITLE</h2>
-          <div>
-            <time dateTime="23/10/2020">23/10/2020</time>
-            <strong>author sobrenome</strong>
-          </div>
-          <img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse4.mm.bing.net%2Fth%3Fid%3DOIP.eMBPwZRLNjqwkSS4nBuD3gHaEJ%26pid%3DApi&f=1" alt="spacex"/>
-        </Link>
-
-        <Link to="/news/slug">
-          <h2>NEWS TITLE TITLE TITLE TITLE TITLE</h2>
-          <div>
-            <time dateTime="23/10/2020">23/10/2020</time>
-            <strong>author sobrenome</strong>
-          </div>
-          <img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse4.mm.bing.net%2Fth%3Fid%3DOIP.eMBPwZRLNjqwkSS4nBuD3gHaEJ%26pid%3DApi&f=1" alt="spacex"/>
-        </Link>
-
-        <Link to="/news/slug">
-          <h2>NEWS TITLE TITLE TITLE TITLE TITLE</h2>
-          <div>
-            <time dateTime="23/10/2020">23/10/2020</time>
-            <strong>author sobrenome</strong>
-          </div>
-          <img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse4.mm.bing.net%2Fth%3Fid%3DOIP.eMBPwZRLNjqwkSS4nBuD3gHaEJ%26pid%3DApi&f=1" alt="spacex"/>
-        </Link>
-      </NewsGrid>
+      {news.length > 0 ? (
+        <NewsGrid>
+          {news.map(n => (
+            <Link key={n._id} to={{
+              pathname: `/news/${n.slug}`,
+              state: {
+                news: n,
+                author: findAuthorById(n.authorID)
+              }
+            }}>
+              <h2>{n.title}</h2>
+              <div>
+                <time dateTime={n.createdAt}>
+                  {formatDate(n.createdAt || '')}
+                </time>
+                <strong>
+                  { findAuthorById(n.authorID)?.name}
+                </strong>
+              </div>
+              <img src={n.image} alt={n.title}/>
+            </Link>
+          ))}
+        </NewsGrid>
+      ) : (
+        <p>Nenhuma notícia cadastrada.</p>
+      )}
     </Container>
   );
 }

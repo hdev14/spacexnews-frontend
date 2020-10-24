@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 
 import httpClient from '../../http-client';
 import NewsForm from '../../components/NewsForm';
@@ -8,15 +8,20 @@ import { Container } from './styles';
 
 const newsInitialState: NewsData = {
   title: '',
-  content: '<h1> Escreva a notícia em markdown. </h1>',
+  content: '',
   authorID: '',
   image: ''
 };
 
 const CreateNews: React.FC = () => {
+  const { state } = useLocation<{ news: NewsData }>()
   const [news, setNews] = useState<NewsData>(newsInitialState);
   const [users, setUsers] = useState<UserData[]>([]);
   const history = useHistory();
+
+  useEffect(() => {
+    setNews(state.news);
+  }, [state.news]);
 
   useEffect(() => {
     (async function fetchUsers() {
@@ -32,7 +37,12 @@ const CreateNews: React.FC = () => {
   const onSubmitHandler = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
     try {
-      await httpClient.post('/news', news);
+      await httpClient.put(`/news/${news._id}`, {
+        title: news.title,
+        content: news.content,
+        authorID: news.authorID,
+        image: news.image
+      });
       setNews(newsInitialState);
       history.push('/');
     } catch(err) {
@@ -49,7 +59,7 @@ const CreateNews: React.FC = () => {
         newsState={news}
         setNewsState={setNews}
         users={users}
-        buttonText="salvar" />
+        buttonText="atualizar" />
     </Container>
   );
 }

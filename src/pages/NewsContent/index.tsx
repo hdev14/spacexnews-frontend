@@ -1,15 +1,33 @@
-import React, { useRef } from 'react';
+import React, { useRef, useMemo } from 'react';
+import { useHistory, useLocation  } from 'react-router-dom';
 
 import Modal from '../../components/Modal/index'
 import { ModalHandler } from '../../components/Modal/ModalHandler'
+import httpClient from '../../http-client';
+import { NewsData, UserData } from '../../types';
+
 import { Container } from './styles';
 
 const NewsContent: React.FC = () => {
-  const modalRef = useRef<ModalHandler>(null);
+  const history = useHistory();
+  const deleteModalRef = useRef<ModalHandler>(null);
+  const { state } = useLocation<{ news: NewsData, author: UserData }>();
 
   function openModal() {
-    if (modalRef.current) {
-      modalRef.current.toggleModal()
+    deleteModalRef.current?.toggleModal();
+  }
+
+  const formatDate = useMemo(() => (d: string) => {
+    const date = new Date(d);
+    return `${date.getDay()}/${date.getMonth()}/${date.getFullYear()}`;;
+  }, []);
+
+  const deleteNews = async () => {
+    try {
+      await httpClient.delete(`news/${state.news._id}`);
+      history.push('/');
+    } catch(err) {
+      console.error(err);
     }
   }
 
@@ -17,44 +35,23 @@ const NewsContent: React.FC = () => {
     <Container>
       <div id="header">
         <div id="left">
-          <time dateTime="23/10/2020">23/10/2020</time>
-          <strong>AUTHOR</strong>
-          <h1>NEWS TITLE</h1>
+          <time dateTime={state.news.createdAt}>
+            {formatDate(state.news.createdAt || '')}
+          </time>
+          <strong>{state.author.name}</strong>
+          <h1>{state.news.title}</h1>
         </div>
 
         <div id="right">
-          <button>editar</button>
+          <button onClick={() => history.push('/edit/news', { news: state.news })}>editar</button>
           <button className="delete" type="button" onClick={openModal}>excluir</button>
         </div>
       </div>
 
-      <main>
-        <img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse4.mm.bing.net%2Fth%3Fid%3DOIP.eMBPwZRLNjqwkSS4nBuD3gHaEJ%26pid%3DApi&f=1" alt="spacex"/>
+      <main dangerouslySetInnerHTML={{ __html: state.news.content }} />
 
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Enim expedita dolores, mollitia iusto vitae vel vero tempora placeat nobis quibusdam, dolorum quidem consequuntur odio ut velit? Quod ea numquam obcaecati!
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Enim expedita dolores, mollitia iusto vitae vel vero tempora placeat nobis quibusdam, dolorum quidem consequuntur odio ut velit? Quod ea numquam obcaecati!
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Enim expedita dolores, mollitia iusto vitae vel vero tempora placeat nobis quibusdam, dolorum quidem consequuntur odio ut velit? Quod ea numquam obcaecati!
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Enim expedita dolores, mollitia iusto vitae vel vero tempora placeat nobis quibusdam, dolorum quidem consequuntur odio ut velit? Quod ea numquam obcaecati!
-        </p>
-
-        <img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse4.mm.bing.net%2Fth%3Fid%3DOIP.eMBPwZRLNjqwkSS4nBuD3gHaEJ%26pid%3DApi&f=1" alt="spacex"/>
-
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Enim expedita dolores, mollitia iusto vitae vel vero tempora placeat nobis quibusdam, dolorum quidem consequuntur odio ut velit? Quod ea numquam obcaecati!
-        </p>
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Enim expedita dolores, mollitia iusto vitae vel vero tempora placeat nobis quibusdam, dolorum quidem consequuntur odio ut velit? Quod ea numquam obcaecati!
-        </p>
-      </main>
-
-      <Modal ref={modalRef} confirm={() => {}} confirm_text="asdfsd">
-        <h1>asdf</h1>
-        <h2>NEWS TITLE TITLE TITLE TITLE TITLE</h2>
-          <div>
-            <time dateTime="23/10/2020">23/10/2020</time>
-            <strong>author sobrenome</strong>
-          </div>
+      <Modal ref={deleteModalRef} confirm={deleteNews} confirm_text="Sim. excluir">
+        <p>Tem certeza que você deseja excluir essa notícia?</p>
       </Modal>
     </Container>
   );
