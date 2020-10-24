@@ -36,4 +36,20 @@ export const Container = styled.div`
       }
     }
   }
+
+  form {
+    label {
+      font-size: 1.4rem;
+      font-weight: bold;
+
+      input {
+        margin-top: 5px;
+        margin-bottom: 10px;
+        display: block;
+        width: 250px;
+        height: 36px;
+        padding-left: 10px;
+      }
+    }
+  }
 `;
