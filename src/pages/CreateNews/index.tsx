@@ -11,7 +11,7 @@ const newsInitialState: NewsData = {
   title: '',
   content: '<h1> Escreva a notícia em markdown. </h1>',
   authorID: '',
-  image: ''
+  image: '',
 };
 
 const CreateNews: React.FC = () => {
@@ -20,16 +20,16 @@ const CreateNews: React.FC = () => {
   const history = useHistory();
 
   useEffect(() => {
-    (async function fetchUsers() {
+    ((async function fetchUsers() {
       try {
         const response = await httpClient.get('/users');
         setUsers(response.data);
-      } catch(err) {
+      } catch (err) {
         toast.warn('Não foi possível carregar os autores.');
         console.error(err);
       }
-    })();
-  }, [])
+    })());
+  }, []);
 
   const onSubmitHandler = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
@@ -37,11 +37,11 @@ const CreateNews: React.FC = () => {
       await httpClient.post('/news', news);
       setNews(newsInitialState);
       history.push('/');
-    } catch(err) {
+    } catch (err) {
       toast.error('Não foi possível cadastrar a notícia.');
       console.error(err);
     }
-  }
+  };
 
   return (
     <Container>
@@ -52,9 +52,10 @@ const CreateNews: React.FC = () => {
         newsState={news}
         setNewsState={setNews}
         users={users}
-        buttonText="salvar" />
+        buttonText="salvar"
+      />
     </Container>
   );
-}
+};
 
 export default CreateNews;

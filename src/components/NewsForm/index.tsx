@@ -13,7 +13,9 @@ type NewsFormProps = {
   buttonText: string;
 }
 
-const NewsForm: React.FC<NewsFormProps> = ({ onSubmitHandler, newsState, setNewsState, users, buttonText = '' }) => {
+const NewsForm: React.FC<NewsFormProps> = ({
+  onSubmitHandler, newsState, setNewsState, users, buttonText = '',
+}) => {
   const [normalContent, setNormalContent] = useState('');
 
   const onChangeInput = (field: string) => (e: React.ChangeEvent<any>) => {
@@ -23,48 +25,51 @@ const NewsForm: React.FC<NewsFormProps> = ({ onSubmitHandler, newsState, setNews
 
       _.debounce(() => setNewsState({
         ...newsState,
-        content: marked(value)
+        content: marked(value),
       }), 500)();
 
       return;
     }
     setNewsState({ ...newsState, [field]: value });
-  }
+  };
 
   return (
     <Form onSubmit={onSubmitHandler}>
       <div>
         <label htmlFor="title">
           Título da notícia
-            <input
+          <input
             type="text"
             name="title"
             placeholder="Digite o titulo."
             value={newsState.title}
-            onChange={onChangeInput('title')} />
+            onChange={onChangeInput('title')}
+          />
         </label>
 
         <label htmlFor="author">
           Escolha o autor
-            <input
+          <input
             list="users"
             name="author"
             id="author"
             placeholder="Escolha o autor da notícia."
-            value={users.find(u => u._id === newsState.authorID)?.name}
-            onChange={onChangeInput('authorID')} />
+            value={users.find((u) => u._id === newsState.authorID)?.name}
+            onChange={onChangeInput('authorID')}
+          />
           <datalist id="users">
-            {users.map(u => <option key={u._id} value={u._id}>{u.name}</option>)}
+            {users.map((u) => <option key={u._id} value={u._id}>{u.name}</option>)}
           </datalist>
         </label>
         <label htmlFor="image">
           url da imagem
-            <input
+          <input
             type="url"
             name="image"
             placeholder="url da imagem principal."
             value={newsState.image}
-            onChange={onChangeInput('image')} />
+            onChange={onChangeInput('image')}
+          />
         </label>
       </div>
 
@@ -72,13 +77,14 @@ const NewsForm: React.FC<NewsFormProps> = ({ onSubmitHandler, newsState, setNews
         <textarea
           value={normalContent || newsState.content}
           onChange={onChangeInput('content')}
-          placeholder="# Escreva a notícia em markdown." />
+          placeholder="# Escreva a notícia em markdown."
+        />
         <div dangerouslySetInnerHTML={{ __html: newsState.content }} />
       </div>
 
       <button type="submit">{buttonText}</button>
     </Form>
   );
-}
+};
 
 export default NewsForm;

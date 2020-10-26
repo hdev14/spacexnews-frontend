@@ -1,4 +1,6 @@
-import React, { useEffect, useRef, useState, useMemo } from 'react';
+import React, {
+  useEffect, useRef, useState, useMemo,
+} from 'react';
 import { toast } from 'react-toastify';
 
 import httpClient from '../../http-client';
@@ -26,13 +28,13 @@ const Users: React.FC = () => {
         toast.warn('Não foi possível carregar os usuários.');
         console.error(err);
       }
-    })();
+    }());
   }, []);
 
   const onChangeInput = (field: string, currentData: UserData, setFunc: any) => (e: any): void => {
     const { value } = e.target;
     setFunc({ ...currentData, [field]: value });
-  }
+  };
 
   const onSubmitNew = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
@@ -44,48 +46,48 @@ const Users: React.FC = () => {
       toast.error('Não foi possível cadastrar o usuário.');
       console.error(err);
     }
-  }
+  };
 
   const onSubmitEdit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
     try {
       await httpClient.put(`/users/${userEdit._id}`, {
         name: userEdit.name,
-        email: userEdit.email
+        email: userEdit.email,
       });
 
-      const userIndex = users.findIndex(u => u._id === userEdit._id);
+      const userIndex = users.findIndex((u) => u._id === userEdit._id);
       users[userIndex] = userEdit;
       setUsers([...users]);
 
       modalEditUserRef.current?.toggleModal();
     } catch (err) {
       toast.error('Não foi possível atualizar o usuário.');
-      console.error(err)
+      console.error(err);
     }
-  }
+  };
 
   const deleteUser = async () => {
     try {
       await httpClient.delete(`/users/${deleteId}`);
-      const newUsers = users.filter(u => u._id !== deleteId);
+      const newUsers = users.filter((u) => u._id !== deleteId);
       setUsers([...newUsers]);
       modalDeleteUserRef.current?.toggleModal();
     } catch (err) {
       toast.error('Não foi possível excluir o usuário.');
       console.error(err);
     }
-  }
+  };
 
   const findUserById = useMemo(() => {
     return (id: string): UserData | undefined => {
-      return users.find(u => u._id === id)
-    }
+      return users.find((u) => u._id === id);
+    };
   }, [users]);
 
   const openModalNewUser = () => {
     modalNewUserRef.current?.toggleModal();
-  }
+  };
 
   const openModalEditUser = (id?: string) => () => {
     const user = findUserById(id || '');
@@ -93,21 +95,21 @@ const Users: React.FC = () => {
       setUserEdit(user);
       modalEditUserRef.current?.toggleModal();
     }
-  }
+  };
 
   const openModalDeleteUser = (id?: string) => () => {
     const user = findUserById(id || '');
     if (user && user._id) {
-      setDeleteId(user._id)
+      setDeleteId(user._id);
       modalDeleteUserRef.current?.toggleModal();
     }
-  }
+  };
 
   return (
     <Container>
       <div id="users-header">
         <h1>Usuários</h1>
-        <button onClick={openModalNewUser}>novo usuário</button>
+        <button type="button" onClick={openModalNewUser}>novo usuário</button>
       </div>
 
       <table>
@@ -118,7 +120,7 @@ const Users: React.FC = () => {
                 <th>#</th>
                 <th>nome</th>
                 <th>email</th>
-                <th></th>
+                <th />
               </tr>
             </thead>
             <tbody>
@@ -128,8 +130,8 @@ const Users: React.FC = () => {
                   <td>{user.name}</td>
                   <td>{user.email}</td>
                   <td>
-                    <button onClick={openModalEditUser(user._id)}>editar</button>
-                    <button onClick={openModalDeleteUser(user._id)}>excluir</button>
+                    <button type="button" onClick={openModalEditUser(user._id)}>editar</button>
+                    <button type="button" onClick={openModalDeleteUser(user._id)}>excluir</button>
                   </td>
                 </tr>
               ))}
@@ -153,7 +155,8 @@ const Users: React.FC = () => {
               name="new_name"
               placeholder="Digite o nome do usuário"
               value={userNew.name}
-              onChange={onChangeInput('name', userNew, setUserNew)} />
+              onChange={onChangeInput('name', userNew, setUserNew)}
+            />
           </label>
 
           <label htmlFor="new_name">
@@ -163,7 +166,8 @@ const Users: React.FC = () => {
               name="new_name"
               placeholder="Digite o email do usuário"
               value={userNew.email}
-              onChange={onChangeInput('email', userNew, setUserNew)} />
+              onChange={onChangeInput('email', userNew, setUserNew)}
+            />
           </label>
         </form>
       </Modal>
@@ -177,7 +181,8 @@ const Users: React.FC = () => {
               name="edit_name"
               placeholder="Digite o nome do usuário"
               value={userEdit.name}
-              onChange={onChangeInput('name', userEdit, setUserEdit)} />
+              onChange={onChangeInput('name', userEdit, setUserEdit)}
+            />
           </label>
 
           <label htmlFor="edit_name">
@@ -187,7 +192,8 @@ const Users: React.FC = () => {
               name="edit_name"
               placeholder="Digite o email do usuário"
               value={userEdit.email}
-              onChange={onChangeInput('email', userEdit, setUserEdit)} />
+              onChange={onChangeInput('email', userEdit, setUserEdit)}
+            />
           </label>
         </form>
       </Modal>
@@ -197,6 +203,6 @@ const Users: React.FC = () => {
       </Modal>
     </Container>
   );
-}
+};
 
 export default Users;

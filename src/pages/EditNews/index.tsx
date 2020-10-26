@@ -11,11 +11,11 @@ const newsInitialState: NewsData = {
   title: '',
   content: '',
   authorID: '',
-  image: ''
+  image: '',
 };
 
 const EditNews: React.FC = () => {
-  const { state } = useLocation<{ news: NewsData }>()
+  const { state } = useLocation<{ news: NewsData }>();
   const [news, setNews] = useState<NewsData>(newsInitialState);
   const [users, setUsers] = useState<UserData[]>([]);
   const history = useHistory();
@@ -25,16 +25,16 @@ const EditNews: React.FC = () => {
   }, [state.news]);
 
   useEffect(() => {
-    (async function fetchUsers() {
+    ((async function fetchUsers() {
       try {
         const response = await httpClient.get('/users');
         setUsers(response.data);
-      } catch(err) {
+      } catch (err) {
         toast.warn('Não foi possível carregar os usuários.');
         console.error(err);
       }
-    })();
-  }, [])
+    })());
+  }, []);
 
   const onSubmitHandler = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
@@ -43,15 +43,15 @@ const EditNews: React.FC = () => {
         title: news.title,
         content: news.content,
         authorID: news.authorID,
-        image: news.image
+        image: news.image,
       });
       setNews(newsInitialState);
       history.push('/');
-    } catch(err) {
+    } catch (err) {
       toast.error('Não foi possível atualizar a notícia.');
       console.error(err);
     }
-  }
+  };
 
   return (
     <Container>
@@ -62,9 +62,10 @@ const EditNews: React.FC = () => {
         newsState={news}
         setNewsState={setNews}
         users={users}
-        buttonText="atualizar" />
+        buttonText="atualizar"
+      />
     </Container>
   );
-}
+};
 
 export default EditNews;

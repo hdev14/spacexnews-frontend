@@ -4,7 +4,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 import App from './App';
-import Main from './layouts/Main'
+import Main from './layouts/Main';
 import GlobalStyle from './styles/GlobalStyle';
 
 ReactDOM.render(

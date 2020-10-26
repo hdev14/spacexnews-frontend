@@ -1,9 +1,9 @@
 import React, { useRef, useMemo } from 'react';
-import { useHistory, useLocation  } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
-import Modal from '../../components/Modal/index'
-import { ModalHandler } from '../../components/Modal/ModalHandler'
+import Modal from '../../components/Modal/index';
+import { ModalHandler } from '../../components/Modal/ModalHandler';
 import httpClient from '../../http-client';
 import { NewsData, UserData } from '../../types';
 
@@ -20,18 +20,18 @@ const NewsContent: React.FC = () => {
 
   const formatDate = useMemo(() => (d: string) => {
     const date = new Date(d);
-    return `${date.getDay()}/${date.getMonth()}/${date.getFullYear()}`;;
+    return `${date.getDay()}/${date.getMonth()}/${date.getFullYear()}`;
   }, []);
 
   const deleteNews = async () => {
     try {
       await httpClient.delete(`news/${state.news._id}`);
       history.push('/');
-    } catch(err) {
+    } catch (err) {
       toast.error('Não foi possível excluir a notícia.');
       console.error(err);
     }
-  }
+  };
 
   return (
     <Container>
@@ -45,7 +45,12 @@ const NewsContent: React.FC = () => {
         </div>
 
         <div id="right">
-          <button onClick={() => history.push('/edit/news', { news: state.news })}>editar</button>
+          <button
+            type="button"
+            onClick={() => history.push('/edit/news', { news: state.news })}
+          >
+            editar
+          </button>
           <button className="delete" type="button" onClick={openModal}>excluir</button>
         </div>
       </div>
@@ -57,5 +62,5 @@ const NewsContent: React.FC = () => {
       </Modal>
     </Container>
   );
-}
+};
 export default NewsContent;

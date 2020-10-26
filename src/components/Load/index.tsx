@@ -5,10 +5,10 @@ import { Loading } from './styles';
 const Load: React.FC = () => (
   <Loading>
     <div className="lds-ring">
-      <div/>
-      <div/>
-      <div/>
-      <div/>
+      <div />
+      <div />
+      <div />
+      <div />
     </div>
   </Loading>
 );
