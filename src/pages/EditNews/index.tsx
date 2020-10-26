@@ -14,7 +14,7 @@ const newsInitialState: NewsData = {
   image: ''
 };
 
-const CreateNews: React.FC = () => {
+const EditNews: React.FC = () => {
   const { state } = useLocation<{ news: NewsData }>()
   const [news, setNews] = useState<NewsData>(newsInitialState);
   const [users, setUsers] = useState<UserData[]>([]);
@@ -55,7 +55,7 @@ const CreateNews: React.FC = () => {
 
   return (
     <Container>
-      <h1>nova notícia</h1>
+      <h1>editar notícia</h1>
 
       <NewsForm
         onSubmitHandler={onSubmitHandler}
@@ -67,4 +67,4 @@ const CreateNews: React.FC = () => {
   );
 }
 
-export default CreateNews;
+export default EditNews;
