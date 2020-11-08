@@ -1,7 +1,6 @@
 import React from 'react';
 
 import spacex from '../../assets/spacex.png';
-import hygia from '../../assets/hygia.webp';
 
 import { Container } from './styles';
 
@@ -14,8 +13,11 @@ const Main: React.FC = ({ children }) => (
     {children}
 
     <footer>
-      <img src={hygia} alt="Hygia Bank" />
-      <small>Teste Full Stack JS</small>
+      <small>
+        Desenvolvido por
+        {' '}
+        <strong>hdev</strong>
+      </small>
     </footer>
   </Container>
 );
