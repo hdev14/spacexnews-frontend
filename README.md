@@ -49,4 +49,4 @@ yarn start
 
 ## API
 
-O Backend desse projeto foi desenvolvido com NodeJS e ele se encontra nesse repositório: https://github.com/hdev14/teste-hygia.
+O Backend desse projeto foi desenvolvido com NodeJS e ele se encontra nesse repositório: https://github.com/hdev14/spacexnews-backend.
